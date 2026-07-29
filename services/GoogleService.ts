@@ -11,7 +11,11 @@ class GoogleService {
     const keyPath = path.join(process.cwd(), "finance-logs-google.json");
     this.auth = new GoogleAuth({
       scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-      keyFilename: keyPath
+      credentials: {
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        client_email: process.env.GOOGLE_CLIENT_EMAIL,
+        private_key: process.env.GOOGLE_PRIVATE_KEY     
+      }
     });
     this.sheets = google.sheets({ version: 'v4', auth: this.auth });
   }
