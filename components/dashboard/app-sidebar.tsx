@@ -28,8 +28,8 @@ import {
 const navMain = [
   { title: "Overview", href: "/", icon: LayoutDashboard },
   { title: "Transactions", href: "/transactions", icon: ArrowLeftRight },
-  { title: "Budgets", href: "/budgets", icon: PiggyBank },
-  { title: "Accounts", href: "/accounts", icon: Wallet },
+  // { title: "Budgets", href: "/budgets", icon: PiggyBank },
+  // { title: "Accounts", href: "/accounts", icon: Wallet },
 ]
 
 const navSettings = [{ title: "Settings", href: "/settings", icon: Settings }]
@@ -71,7 +71,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup>
+        {/* <SidebarGroup>
           <SidebarGroupLabel>System</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -91,7 +91,7 @@ export function AppSidebar() {
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

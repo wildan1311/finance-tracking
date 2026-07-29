@@ -1,5 +1,5 @@
 interface FilterPagination {
-    q: string | number;
+    q?: string | number;
     size: number,
     page: number
 }

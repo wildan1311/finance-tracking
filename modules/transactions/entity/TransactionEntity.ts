@@ -1,4 +1,4 @@
-export type TypeTransaction = "income" | "expense";
+export type TypeTransaction = "INCOME" | "EXPENSE";
 
 class TransactionEntity {
     constructor(
@@ -6,7 +6,7 @@ class TransactionEntity {
         public date: Date,
         public description: string,
         public amount: number,
-        public type: TypeTransaction,
+        public type: string,
         public category: string
     ) {}
 }

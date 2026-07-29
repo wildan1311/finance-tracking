@@ -1,35 +1,36 @@
 "use client";
 
-import * as React from "react";
-import { Download, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 import { PageHeader } from "@/components/dashboard/page-header";
 import { TransactionsTable } from "@/components/dashboard/transactions-table";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TransactionEntity from "@/modules/transactions/entity/TransactionEntity";
-import { useTransactionsLocal } from "@/hooks/use-transaction-local";
-import { defaultFilter } from "@/modules/shared/FilterType";
+import CreateTransactionDialog from "./create-transaction-dialog";
+import PaginationApp from "../shared/pagination";
+import useTransactions from "@/modules/transactions/presentations/hooks/useTransaction";
+import { PaginationResult } from "@/lib/PaginationHelper";
 
 type Filter = "all" | "income" | "expense";
 
 interface Props {
-  initialData: TransactionEntity[];
+  initialData: PaginationResult<TransactionEntity>;
+  saveTransaction: (_prevState: any, formData: FormData) => Promise<any>;
 }
 
-export default function TransactionsClient({ initialData }: Props) {
-  const { transactions, loading, createTransaction } = useTransactionsLocal(defaultFilter);
-  const [filter, setFilter] = React.useState<Filter>("all");
-  const [query, setQuery] = React.useState("");
-
-  const filtered = React.useMemo(() => {
-    return initialData.filter((tx) => {
-      // TODO: filter berdasarkan query & filter
-      return true;
-    });
-  }, [initialData, filter, query]);
+export default function TransactionsClient({
+  initialData,
+  saveTransaction,
+}: Props) {
+  const {
+    data,
+    page,
+    query,
+    loading,
+    setPage,
+    refresh,
+  } = useTransactions({ initialData });
 
   return (
     <>
@@ -37,15 +38,12 @@ export default function TransactionsClient({ initialData }: Props) {
         title="Transactions"
         description="Browse, search, and filter all account activity."
       >
-        <Button variant="outline">
-          <Download data-icon="inline-start" />
-          Export
-        </Button>
+        <CreateTransactionDialog handleCreate={saveTransaction} refreshTable={refresh} />
       </PageHeader>
 
       <Card>
         <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <Tabs
+          {/* <Tabs
             value={filter}
             onValueChange={(value) => setFilter(value as Filter)}
           >
@@ -54,7 +52,7 @@ export default function TransactionsClient({ initialData }: Props) {
               <TabsTrigger value="income">Income</TabsTrigger>
               <TabsTrigger value="expense">Expenses</TabsTrigger>
             </TabsList>
-          </Tabs>
+          </Tabs> */}
 
           <div className="relative flex max-w-xs flex-1 items-center">
             <Search className="absolute left-2.5 size-4 text-muted-foreground" />
@@ -62,19 +60,25 @@ export default function TransactionsClient({ initialData }: Props) {
               placeholder="Search merchant or category..."
               className="h-9 pl-8"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              // onChange={(e) => setQuery(e.target.value)}
             />
           </div>
         </CardHeader>
 
         <CardContent>
-          {transactions.length > 0 ? (
-            <TransactionsTable data={transactions} />
+          {data.data.length > 0 ? (
+            <TransactionsTable data={data.data} loading={loading} />
           ) : (
             <p className="py-12 text-center text-sm text-muted-foreground">
               No transactions match your filters.
             </p>
           )}
+          <PaginationApp
+            size={0}
+            page={page}
+            totalPages={data.totalPage}
+            onPageChange={setPage}
+          />
         </CardContent>
       </Card>
     </>

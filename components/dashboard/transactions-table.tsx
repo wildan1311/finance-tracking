@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -6,61 +6,81 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { cn } from "@/lib/utils"
-import { formatCurrency, type Transaction } from "@/lib/mock-data"
-import TransactionEntity, { TypeTransaction } from "@/modules/transactions/entity/TransactionEntity"
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { formatCurrency, type Transaction } from "@/lib/mock-data";
+import TransactionEntity, {
+  TypeTransaction,
+} from "@/modules/transactions/entity/TransactionEntity";
+import { TRANSACTIONTYPE } from "@/modules/transactions/enums";
+import Loading from "../../app/(dashboard)/loading";
+import { Loader } from "lucide-react";
 
 function StatusBadge({ status }: { status: TypeTransaction }) {
   const variant =
-    status === "expense" ? "destructive" : "outline"
+    status === TRANSACTIONTYPE.EXPENSE ? "destructive" : "outline";
   return (
     <Badge variant={variant} className="capitalize">
       {status}
     </Badge>
-  )
+  );
 }
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("id-ID", {
     day: "numeric",
     month: "long",
-    year: "numeric"
-  })
+    year: "numeric",
+  });
 }
 
 export function TransactionsTable({
+  loading = false,
   data,
-  showAccount = true,
 }: {
-  data: TransactionEntity[]
-  showAccount?: boolean
+  loading: boolean;
+  data: TransactionEntity[];
 }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto relative">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Tanggal</TableHead>
-            <TableHead className="hidden sm:table-cell">Deskripsi</TableHead>
-            <TableHead className="hidden sm:table-cell">Type</TableHead>
-            <TableHead className="hidden md:table-cell">Jumlah</TableHead>
+            <TableHead align="center" className="text-center w-30">
+              Tanggal
+            </TableHead>
+            <TableHead className="text-center">
+              Deskripsi
+            </TableHead>
+            <TableHead className="text-center w-30">
+              Type
+            </TableHead>
+            <TableHead className="text-center w-30">
+              Jumlah
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((tx) => (
             <TableRow key={tx.id}>
-              <TableCell className="font-medium">{formatDate(tx.date.toDateString())}</TableCell>
-              <TableCell className="hidden text-muted-foreground sm:table-cell">
+              <TableCell className="text-center">
+                {formatDate(tx.date.toDateString())}
+              </TableCell>
+
+              <TableCell className=" text-muted-foreground">
                 {tx.description}
               </TableCell>
-              <TableCell className="hidden sm:table-cell">
-                <StatusBadge status={tx.type} />
+
+              <TableCell className=" text-center">
+                <StatusBadge status={tx.type as TRANSACTIONTYPE} />
               </TableCell>
+
               <TableCell
                 className={cn(
                   "text-right font-medium tabular-nums whitespace-nowrap",
-                  tx.type === "income" ? "text-primary" : "text-foreground",
+                  tx.type === TRANSACTIONTYPE.INCOME
+                    ? "text-primary"
+                    : "text-foreground",
                 )}
               >
                 {formatCurrency(tx.amount, { signed: true })}
@@ -69,6 +89,11 @@ export function TransactionsTable({
           ))}
         </TableBody>
       </Table>
+      {loading && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/60 backdrop-blur-[1px]">
+          <Loader className="h-6 w-6 animate-spin" />
+        </div>
+      )}
     </div>
-  )
+  );
 }

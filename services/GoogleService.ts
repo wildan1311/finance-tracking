@@ -1,3 +1,4 @@
+import TransactionEntity from '@/modules/transactions/entity/TransactionEntity';
 import {GoogleAuth} from 'google-auth-library';
 import {google} from 'googleapis';
 import path from 'path';
@@ -23,14 +24,25 @@ class GoogleService {
     });
   }
 
-
-
   async updateSheetsRange<T>(sheetId:string, range:string, values:T[]) {
     return this.sheets.spreadsheets.values.update({
       spreadsheetId: sheetId,
       range: range,
       requestBody: {
         values: values
+      }
+    });
+  }
+
+  async create(sheetId:string, range:string, values:any[]) {
+    return this.sheets.spreadsheets.values.append({
+      spreadsheetId: sheetId,
+      range: range,
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: [
+          values
+        ]
       }
     });
   }

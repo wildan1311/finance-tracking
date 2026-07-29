@@ -1,17 +1,19 @@
 "use client"
 
+import { config } from "@/config/app"
+import ResponseMaker from "@/lib/ResponseMaker"
+import { Response } from "@/modules/shared/Response"
 import * as React from "react"
 
 export type User = {
   id: string
   name: string
-  email: string
 }
 
 type AuthContextValue = {
   user: User | null
   isLoading: boolean
-  signIn: (email: string, password: string) => Promise<void>
+  signIn: (email: string) => Promise<Response>
   signOut: () => void
 }
 
@@ -40,16 +42,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false)
   }, [])
 
-  const signIn = React.useCallback(async (email: string, _password: string) => {
-    // Simulate a network round-trip.
+  const signIn = React.useCallback(async (name: string) => {
     await new Promise((resolve) => setTimeout(resolve, 600))
     const nextUser: User = {
       id: "usr_demo",
-      name: email.split("@")[0].replace(/[._-]/g, " ") || "Demo User",
-      email,
+      name: name || 'Wildan Eva',
     }
     setUser(nextUser)
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser))
+    return ResponseMaker.makeSuccessResponse("Signed in successfully.")
   }, [])
 
   const signOut = React.useCallback(() => {

@@ -100,10 +100,9 @@ export const transactions: Transaction[] = [
 ]
 
 export function formatCurrency(value: number, opts?: { signed?: boolean }) {
-  const formatted = new Intl.NumberFormat("en-US", {
+  const formatted = new Intl.NumberFormat("id-ID", {
     style: "currency",
-    currency: "USD",
-    signDisplay: opts?.signed ? "always" : "auto",
+    currency: "IDR",
   }).format(value)
   return formatted
 }

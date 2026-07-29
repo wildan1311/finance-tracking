@@ -1,11 +1,13 @@
+import { CreateTransactionDto } from "../dto/create.dto";
 import TransactionEntity from "../entity/TransactionEntity";
 import TransactionRepo from "../TransactionRepo";
 
 class CreateTransactionUsecase {
     constructor(private transactionRepo: TransactionRepo) {}
 
-    async execute(transaction: TransactionEntity): Promise<void> {
-        await this.transactionRepo.createTransaction(transaction);
+    async execute(dto: CreateTransactionDto): Promise<void> {
+        const transaction = new TransactionEntity(Math.random().toString(), dto.date, dto.description, dto.amount, dto.type, dto.category);
+        return await this.transactionRepo.createTransaction(transaction);
     }
 }
 

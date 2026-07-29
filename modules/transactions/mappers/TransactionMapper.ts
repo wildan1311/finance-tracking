@@ -10,6 +10,17 @@ class TransactionMapper {
         }));
     }
 
+    static jsonToDomain(json: any): TransactionEntity {
+        return new TransactionEntity(
+            json.id,
+            new Date(json.date),
+            json.description,
+            parseFloat(json.amount),
+            json.type as TypeTransaction,
+            json.category || "Uncategorized"
+        );
+    }
+
     static fromSheetToDomain(transactionData: any[]) : TransactionEntity[] {
         return transactionData.map(([id, date, description, amount, type, category]) => ({
             id,
@@ -19,6 +30,17 @@ class TransactionMapper {
             type: type as TypeTransaction,
             category: category || "Uncategorized" 
         }));
+    }
+
+    static fromDomainToSheet(transaction: TransactionEntity): any[] {
+        return [
+            null,
+            transaction.date.toISOString().replace('T', ' '),
+            transaction.description,
+            transaction.amount,
+            transaction.type,
+            transaction.category
+        ];
     }
 }
 

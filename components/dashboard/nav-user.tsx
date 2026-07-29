@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { ChevronsUpDown, LogOut, Settings, UserRound } from "lucide-react"
+import { useRouter } from "next/navigation";
+import { ChevronsUpDown, LogOut, Settings, UserRound } from "lucide-react";
 
-import { useAuth } from "@/components/auth-provider"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useAuth } from "@/components/auth-provider";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,13 +13,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 function initials(name: string) {
   return name
@@ -28,15 +28,15 @@ function initials(name: string) {
     .filter(Boolean)
     .slice(0, 2)
     .join("")
-    .toUpperCase()
+    .toUpperCase();
 }
 
 export function NavUser() {
-  const router = useRouter()
-  const { user, signOut } = useAuth()
-  const { isMobile } = useSidebar()
+  const router = useRouter();
+  const { user, signOut } = useAuth();
+  const { isMobile } = useSidebar();
 
-  if (!user) return null
+  if (!user) return null;
 
   return (
     <SidebarMenu>
@@ -54,9 +54,8 @@ export function NavUser() {
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium capitalize">{user.name}</span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    {user.email}
+                  <span className="truncate font-medium capitalize">
+                    {user.name}
                   </span>
                 </div>
                 <ChevronsUpDown className="ml-auto size-4" />
@@ -69,29 +68,33 @@ export function NavUser() {
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col gap-0.5">
-                <span className="truncate text-sm font-medium capitalize">{user.name}</span>
-                <span className="truncate text-xs text-muted-foreground">{user.email}</span>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => router.push("/settings")}>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col gap-0.5">
+                  <span className="truncate text-sm font-medium capitalize">
+                    {user.name}
+                  </span>
+                </div>
+              </DropdownMenuLabel>
+
+              <DropdownMenuSeparator />
+
+              {/* <DropdownMenuItem onClick={() => router.push("/settings")}>
                 <UserRound />
                 Profile
               </DropdownMenuItem>
+
               <DropdownMenuItem onClick={() => router.push("/settings")}>
                 <Settings />
                 Settings
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator /> */}
             <DropdownMenuItem
               variant="destructive"
               onClick={() => {
-                signOut()
-                router.replace("/login")
+                signOut();
+                router.replace("/login");
               }}
             >
               <LogOut />
@@ -101,5 +104,5 @@ export function NavUser() {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
