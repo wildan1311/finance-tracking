@@ -47,7 +47,7 @@ const CreateTransactionDialog = ({ handleCreate, refreshTable }: props) => {
         <form action={formAction} name="submited">
           <DialogHeader>
             <div>
-              <h3 className="text-base font-bold text-zinc-900">
+              <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-300">
                 Tambah Transaksi
               </h3>
               <p className="text-xs text-zinc-400">
