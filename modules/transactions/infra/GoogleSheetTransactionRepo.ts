@@ -10,9 +10,12 @@ class GoogleSheetTransactionRepo implements TransactionRepo {
     constructor(private googleService: GoogleService = new GoogleService()) {}
     async getTransactions(filter: FilterPagination = defaultFilter, filterData?: any) : Promise<PaginationResult<TransactionEntity>> {
         const { size, page } = filter;
-        const range = `A${page * size - size + 2}:F${page * size + 2}`;
+        if(page && size){
+            await this.googleService.updateSheetsRange(config.sheet_id || "", "pagination!I1", [[page]]);
+            await this.googleService.updateSheetsRange(config.sheet_id || "", "pagination!I2", [[size]]);
+        }
         const [data, countAll] = await Promise.all([
-            await this.googleService.getSheetsRange(config.sheet_id || "", range),
+            await this.googleService.getSheetsRange(config.sheet_id || "", "pagination!A2:F"),
             await this.googleService.getSheetsRange(config.sheet_id || "", "A:A")
         ])
         

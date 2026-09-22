@@ -31,6 +31,7 @@ class GoogleService {
   async updateSheetsRange<T>(sheetId:string, range:string, values:T[]) {
     return this.sheets.spreadsheets.values.update({
       spreadsheetId: sheetId,
+      valueInputOption: "USER_ENTERED",
       range: range,
       requestBody: {
         values: values
