@@ -23,14 +23,9 @@ export default function TransactionsClient({
   initialData,
   saveTransaction,
 }: Props) {
-  const {
-    data,
-    page,
-    query,
-    loading,
-    setPage,
-    refresh,
-  } = useTransactions({ initialData });
+  const { data, page, query, loading, setPage, refresh } = useTransactions({
+    initialData,
+  });
 
   return (
     <>
@@ -38,7 +33,10 @@ export default function TransactionsClient({
         title="Transactions"
         description="Browse, search, and filter all account activity."
       >
-        <CreateTransactionDialog handleCreate={saveTransaction} refreshTable={refresh} />
+        <CreateTransactionDialog
+          handleCreate={saveTransaction}
+          refreshTable={refresh}
+        />
       </PageHeader>
 
       <Card>

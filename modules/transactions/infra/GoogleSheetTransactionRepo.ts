@@ -15,7 +15,7 @@ class GoogleSheetTransactionRepo implements TransactionRepo {
             await this.googleService.updateSheetsRange(config.sheet_id || "", "pagination!I2", [[size]]);
         }
         const [data, countAll] = await Promise.all([
-            await this.googleService.getSheetsRange(config.sheet_id || "", "pagination!A2:F"),
+            await this.googleService.getSheetsRange(config.sheet_id || "", "pagination!A2:G"),
             await this.googleService.getSheetsRange(config.sheet_id || "", "A:A")
         ])
         
@@ -29,7 +29,7 @@ class GoogleSheetTransactionRepo implements TransactionRepo {
     }
 
     async createTransaction(transaction: TransactionEntity): Promise<void> {
-       const data = await this.googleService.create(config.sheet_id || "", "B:F", TransactionMapper.fromDomainToSheet(transaction));
+       const data = await this.googleService.create(config.sheet_id || "", "B:G", TransactionMapper.fromDomainToSheet(transaction));
        return data
     }
 }

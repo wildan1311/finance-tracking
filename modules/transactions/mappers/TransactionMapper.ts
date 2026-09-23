@@ -17,18 +17,20 @@ class TransactionMapper {
             json.description,
             parseFloat(json.amount),
             json.type as TypeTransaction,
-            json.category || "Uncategorized"
+            json.category || "Uncategorized",
+            json.user || "Unknown"
         );
     }
 
     static fromSheetToDomain(transactionData: any[]) : TransactionEntity[] {
-        return transactionData.map(([id, date, description, amount, type, category]) => ({
+        return transactionData.map(([id, date, description, amount, type, category, user]) => ({
             id,
             date: new Date(date),
             description,
             amount: parseFloat(amount),
             type: type as TypeTransaction,
-            category: category || "Uncategorized" 
+            category: category || "Uncategorized" ,
+            user: user || "Unknown"
         }));
     }
 
@@ -39,7 +41,8 @@ class TransactionMapper {
             transaction.description,
             transaction.amount,
             transaction.type,
-            transaction.category
+            transaction.category,
+            transaction.user
         ];
     }
 }

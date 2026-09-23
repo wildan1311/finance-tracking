@@ -7,7 +7,8 @@ class TransactionEntity {
         public description: string,
         public amount: number,
         public type: string,
-        public category: string
+        public category: string,
+        public user: string
     ) {}
 }
 

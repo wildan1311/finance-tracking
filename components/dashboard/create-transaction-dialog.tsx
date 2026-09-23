@@ -4,9 +4,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
-  DialogDescription,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import FormsCreate from "./transactions/forms-create";
@@ -15,7 +13,7 @@ import Toaster from "@/lib/Toaster";
 
 interface props {
   handleCreate: (_prevState: any, formData: FormData) => Promise<any>;
-  refreshTable : () => Promise<any>
+  refreshTable: () => Promise<any>;
 }
 
 const CreateTransactionDialog = ({ handleCreate, refreshTable }: props) => {

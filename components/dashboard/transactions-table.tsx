@@ -47,22 +47,21 @@ export function TransactionsTable({
         <TableHeader>
           <TableRow>
             <TableHead align="center" className="text-center w-30">
+              Nama
+            </TableHead>
+            <TableHead align="center" className="text-center w-30">
               Tanggal
             </TableHead>
-            <TableHead className="text-center">
-              Deskripsi
-            </TableHead>
-            <TableHead className="text-center w-30">
-              Type
-            </TableHead>
-            <TableHead className="text-center w-30">
-              Jumlah
-            </TableHead>
+            <TableHead className="text-center">Deskripsi</TableHead>
+            <TableHead className="text-center w-30">Type</TableHead>
+            <TableHead className="text-center w-30">Jumlah</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((tx) => (
             <TableRow key={tx.id}>
+              <TableCell className="text-center">{tx.user}</TableCell>
+
               <TableCell className="text-center">
                 {formatDate(tx.date.toDateString())}
               </TableCell>

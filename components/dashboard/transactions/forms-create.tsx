@@ -7,6 +7,9 @@ import FieldFormInput from "@/components/ui/forms/field-form-Input";
 import FieldFormSelect from "@/components/ui/forms/field-form-select";
 import { cn } from "../../../lib/utils";
 import FieldFormTextarea from "@/components/ui/forms/field-form-textarea";
+import { useAuth } from "@/components/auth-provider";
+import { Input } from "@/components/ui/input";
+import { unknown } from "zod";
 
 const FormsCreate = ({
   state,
@@ -15,6 +18,7 @@ const FormsCreate = ({
   state: Response;
   className?: string;
 }) => {
+  const { user } = useAuth();
   const parseToIdr = (value: string) => {
     if (!value) return "";
     const num = parseFloat(value.replace(/[^0-9]+/g, "")).toLocaleString(
@@ -29,7 +33,7 @@ const FormsCreate = ({
     }
   };
 
-  const formatDatetimeLocal = (dateString : string) => {
+  const formatDatetimeLocal = (dateString: string) => {
     const date = dateString ? new Date(dateString) : new Date();
     const tzoffset = date.getTimezoneOffset() * 60000; // penyesuaian zona waktu lokal
     const localISOTime = new Date(date.getTime() - tzoffset)
@@ -40,6 +44,14 @@ const FormsCreate = ({
 
   return (
     <FieldGroup className={cn("my-5", className)}>
+      <Input
+        id="user"
+        name="user"
+        type="hidden"
+        placeholder="User"
+        readOnly={true}
+        defaultValue={user?.name || "unknown"}
+      />
       <div className="grid grid-cols-3 gap-3">
         <FieldFormInput
           label="Tanggal"
@@ -47,9 +59,7 @@ const FormsCreate = ({
           name="date"
           type="datetime-local"
           placeholder="Tanggal"
-          defaultValue={
-            formatDatetimeLocal(state.values?.date || undefined)
-          }
+          defaultValue={formatDatetimeLocal(state.values?.date || undefined)}
           errors={state?.errors?.date || null}
         />
 
