@@ -12,6 +12,7 @@ import PushSubscriptionRepository from "@/modules/notifications/domain/repositor
  */
 const TAB = "subscriptions";
 const RANGE = `${TAB}!A2:D`;
+const HEADER = ["endpoint", "p256dh", "auth", "createdAt"];
 
 class GoogleSheetPushSubscriptionRepository implements PushSubscriptionRepository {
   constructor(
@@ -22,7 +23,14 @@ class GoogleSheetPushSubscriptionRepository implements PushSubscriptionRepositor
     return env.spreadsheetId || "";
   }
 
+  /** Creates the `subscriptions` tab on first use. */
+  private async ensureTab(): Promise<void> {
+    await this.googleService.ensureSheet(this.sheetId, TAB, HEADER);
+  }
+
   async findAll(): Promise<PushSubscription[]> {
+    await this.ensureTab();
+
     const response = await this.googleService.getSheetsRange(this.sheetId, RANGE);
     const rows = response?.data?.values ?? [];
 

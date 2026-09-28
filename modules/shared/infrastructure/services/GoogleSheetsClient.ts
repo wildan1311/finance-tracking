@@ -61,6 +61,49 @@ class GoogleSheetsClient {
       range: range,
     });
   }
+
+  async addSheet(sheetId: string, title: string) {
+    return this.sheets.spreadsheets.batchUpdate({
+      spreadsheetId: sheetId,
+      requestBody: {
+        requests: [{ addSheet: { properties: { title } } }],
+      },
+    });
+  }
+
+  /**
+   * Creates `title` with a header row if it does not exist yet.
+   *
+   * Lets the notification store bootstrap itself instead of requiring manual
+   * tab setup. Only creates on a genuine "tab not found" — a transient auth or
+   * network failure is re-thrown instead of being papered over with a new tab.
+   */
+  async ensureSheet(sheetId: string, title: string, header: string[]): Promise<void> {
+    try {
+      // Reading a cell of a missing tab throws; reading an existing but empty
+      // tab simply returns no values. So this doubles as an existence check.
+      await this.getSheetsRange(sheetId, `${title}!A1`);
+      return;
+    } catch (error) {
+      if (!this.isMissingTabError(error)) throw error;
+    }
+
+    console.info(`[sheets] creating tab "${title}"`);
+    await this.addSheet(sheetId, title);
+    await this.updateSheetsRange(sheetId, `${title}!A1`, [header]);
+  }
+
+  private isMissingTabError(error: unknown): boolean {
+    const message = String(
+      (error as { message?: string })?.message ?? error,
+    ).toLowerCase();
+
+    return (
+      message.includes("unable to parse range") ||
+      message.includes("requested entity was not found") ||
+      message.includes("no sheet with name")
+    );
+  }
 }
 
 export default GoogleSheetsClient;

@@ -5,6 +5,7 @@ import ReminderLogRepository from "@/modules/notifications/domain/repositories/R
 /** reminder-log!A2:C → dayKey | sentAt | recipients */
 const TAB = "reminder-log";
 const RANGE = `${TAB}!A2:C`;
+const HEADER = ["dayKey", "sentAt", "recipients"];
 
 class GoogleSheetReminderLogRepository implements ReminderLogRepository {
   constructor(
@@ -15,7 +16,14 @@ class GoogleSheetReminderLogRepository implements ReminderLogRepository {
     return env.spreadsheetId || "";
   }
 
+  /** Creates the `reminder-log` tab on first use. */
+  private async ensureTab(): Promise<void> {
+    await this.googleService.ensureSheet(this.sheetId, TAB, HEADER);
+  }
+
   async wasSentOn(dayKey: string): Promise<boolean> {
+    await this.ensureTab();
+
     const response = await this.googleService.getSheetsRange(this.sheetId, RANGE);
     const rows = response?.data?.values ?? [];
 
@@ -23,6 +31,8 @@ class GoogleSheetReminderLogRepository implements ReminderLogRepository {
   }
 
   async markSent(dayKey: string, recipients: number): Promise<void> {
+    await this.ensureTab();
+
     await this.googleService.create(this.sheetId, RANGE, [
       dayKey,
       new Date().toISOString(),

@@ -36,8 +36,35 @@ class JsonFileStore {
   async write<T>(fileName: string, data: T): Promise<void> {
     const filePath = this.resolve(fileName);
 
-    await fs.mkdir(this.dir, { recursive: true });
-    await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf8");
+    try {
+      await fs.mkdir(this.dir, { recursive: true });
+      await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf8");
+    } catch (error) {
+      throw this.explain(error);
+    }
+  }
+
+  /**
+   * Turns a raw fs error into something actionable.
+   *
+   * On Vercel the bundle directory (`/var/task`) is read-only, so the raw error
+   * is a bare `ENOENT: mkdir '/var/task/data'` with no hint about the cause.
+   */
+  private explain(error: unknown): Error {
+    const code = (error as NodeJS.ErrnoException).code;
+
+    const isUnwritable = ["EROFS", "ENOENT", "EACCES", "EPERM", "ENOSPC"].includes(
+      code ?? "",
+    );
+
+    if (!isUnwritable) return error as Error;
+
+    return new Error(
+      `Cannot write push subscription data to ${this.dir} (${code}). ` +
+        "This is expected on serverless platforms such as Vercel, where the " +
+        "filesystem is read-only and reset on every deploy. " +
+        "Set PUSH_STORE=sheet to store subscriptions in Google Sheets instead.",
+    );
   }
 
   /** Read-modify-write under a per-file lock. */
