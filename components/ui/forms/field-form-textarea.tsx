@@ -1,4 +1,4 @@
-import { IFieldFormInput } from "@/modules/shared/IFieldFormInput";
+import { IFieldFormInput } from "@/components/ui/forms/field-form.types";
 import { Field } from "../field";
 import { Label } from "../label";
 import { Textarea } from "../textarea";

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { InfoIcon, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
-import { CashflowChart } from "@/components/dashboard/cashflow-chart";
-import { PageHeader } from "@/components/dashboard/page-header";
-import { SpendingChart } from "@/components/dashboard/spending-chart";
-import { StatCards } from "@/components/dashboard/stat-cards";
+import { CashflowChart } from "@/components/dashboard/CashflowChart";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { SpendingChart } from "@/components/dashboard/SpendingChart";
+import { StatCards } from "@/components/dashboard/StatCards";
 import { Button } from "@/components/ui/button";
 
 export default async function OverviewPage() {

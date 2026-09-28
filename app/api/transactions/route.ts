@@ -1,5 +1,5 @@
-import GoogleSheetTransactionRepo from "@/modules/transactions/infra/GoogleSheetTransactionRepo";
-import GetTransactionUsecase from "@/modules/transactions/usecases/GetTransactionUsecase";
+import GoogleSheetTransactionRepository from "@/modules/transactions/infrastructure/repositories/GoogleSheetTransactionRepository";
+import GetTransactions from "@/modules/transactions/application/usecases/GetTransactions";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -8,11 +8,10 @@ export async function GET(req: NextRequest) {
   const q = searchParams.get("q") ?? "";
   const offset = searchParams.get("offset") ?? "0";
   const page = searchParams.get("page") ?? "1";
-  const type = searchParams.get("type") ?? undefined;
 
   try {
-    const repo = new GoogleSheetTransactionRepo();
-    const useCase = new GetTransactionUsecase(repo);
+    const repo = new GoogleSheetTransactionRepository();
+    const useCase = new GetTransactions(repo);
 
     const transactions = await useCase.execute({
       size: Number(offset),

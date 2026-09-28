@@ -3,8 +3,8 @@
 import * as React from "react"
 import { toast } from "sonner"
 
-import { useAuth } from "@/components/auth-provider"
-import { PageHeader } from "@/components/dashboard/page-header"
+import { useAuth } from "@/components/providers/AuthProvider"
+import { PageHeader } from "@/components/layout/PageHeader"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -34,7 +34,8 @@ function initials(name: string) {
 export default function SettingsPage() {
   const { user } = useAuth()
   const [name, setName] = React.useState(user?.name ?? "")
-  const [email, setEmail] = React.useState(user?.email ?? "")
+  // The auth stub has no email, so this stays a local profile field for now.
+  const [email, setEmail] = React.useState("")
 
   function handleSave(event: React.FormEvent) {
     event.preventDefault()

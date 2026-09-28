@@ -1,5 +1,4 @@
-import { ProtectedShell } from "@/components/dashboard/protected-shell"
-import { Toaster } from "@/components/ui/sonner"
+import { ProtectedShell } from "@/components/layout/ProtectedShell"
 
 export default function DashboardLayout({
   children,

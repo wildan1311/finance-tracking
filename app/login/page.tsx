@@ -1,5 +1,5 @@
-import loginAction from "@/modules/auth/presentations/actions/login.actions"
-import LoginForm from "@/modules/auth/presentations/components/login-form";
+import loginAction from "@/modules/auth/presentation/actions/login.action"
+import LoginForm from "@/modules/auth/presentation/components/LoginForm";
 
 export default function LoginPage() {
   const handleLogin = async (_prevState: any, formData: FormData) => {

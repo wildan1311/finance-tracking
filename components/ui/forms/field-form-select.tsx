@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../select";
-import { IFieldFormInput } from "@/modules/shared/IFieldFormInput";
+import { IFieldFormInput } from "@/components/ui/forms/field-form.types";
 
 export interface SelectOption {
   label: ReactNode;

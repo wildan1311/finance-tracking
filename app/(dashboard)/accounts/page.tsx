@@ -1,6 +1,6 @@
 import { CreditCard, Landmark, LineChart, Plus, Wallet } from "lucide-react"
 
-import { PageHeader } from "@/components/dashboard/page-header"
+import { PageHeader } from "@/components/layout/PageHeader"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {

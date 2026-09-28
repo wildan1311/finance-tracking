@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { Field } from "../field";
 import { useEffect, useState } from "react";
-import { IFieldFormInput } from "@/modules/shared/IFieldFormInput";
+import { IFieldFormInput } from "@/components/ui/forms/field-form.types";
 import {
   InputGroup,
   InputGroupAddon,
