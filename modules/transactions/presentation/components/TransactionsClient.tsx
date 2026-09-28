@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { RefreshCcw, Search } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TransactionsTable } from "@/modules/transactions/presentation/components/TransactionsTable";
@@ -11,6 +11,7 @@ import CreateTransactionDialog from "./CreateTransactionDialog";
 import PaginationNav from "@/components/shared/PaginationNav";
 import useTransactions from "@/modules/transactions/presentation/hooks/useTransactions";
 import { PaginationResult } from "@/modules/shared/domain/PaginationHelper";
+import { Button } from "@base-ui/react";
 
 interface Props {
   initialData: PaginationResult<Transaction>;
@@ -59,6 +60,10 @@ export default function TransactionsClient({
               // onChange={(e) => setQuery(e.target.value)}
             />
           </div>
+
+          <Button className="rounded-xl border cursor-pointer p-2">
+            <RefreshCcw className="size-4" onClick={refresh} />
+          </Button>
         </CardHeader>
 
         <CardContent>

@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { ServiceWorkerProvider } from "@/components/providers/ServiceWorkerProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -63,7 +64,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>{children}</AuthProvider>
+          <ServiceWorkerProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </ServiceWorkerProvider>
           <Toaster richColors position="top-right" />
         </ThemeProvider>
         {process.env.NODE_ENV === "production" && <Analytics />}

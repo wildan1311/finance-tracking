@@ -19,6 +19,7 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
+import { NotificationSettings } from "@/modules/notifications/presentation/components/NotificationSettings"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 function initials(name: string) {
@@ -129,11 +130,15 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="notifications">
+        <TabsContent value="notifications" className="flex flex-col gap-4">
+          <NotificationSettings />
+
           <Card>
             <CardHeader>
-              <CardTitle>Notifications</CardTitle>
-              <CardDescription>Choose what you want to hear about.</CardDescription>
+              <CardTitle>Preferences</CardTitle>
+              <CardDescription>
+                Placeholder — these toggles are not wired up to anything yet.
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col">
               <SettingRow

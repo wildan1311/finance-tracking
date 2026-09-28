@@ -3,10 +3,10 @@ import { defaultFilter, FilterPagination } from "@/modules/shared/domain/Paginat
 import PaginationHelper, {
   PaginationResult,
 } from "@/modules/shared/domain/PaginationHelper";
+import GoogleSheetsClient from "@/modules/shared/infrastructure/services/GoogleSheetsClient";
 import Transaction from "@/modules/transactions/domain/entities/Transaction";
 import TransactionRepository from "@/modules/transactions/domain/repositories/TransactionRepository";
 import SheetTransactionMapper from "@/modules/transactions/infrastructure/mappers/SheetTransactionMapper";
-import GoogleSheetsClient from "@/modules/transactions/infrastructure/services/GoogleSheetsClient";
 
 /**
  * Sheet layout contract (do not reorder without migrating the spreadsheet):

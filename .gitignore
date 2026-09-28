@@ -16,3 +16,6 @@ node_modules
 
 finance-logs-google.json
 .env
+
+# Local push subscription store (PUSH_STORE=json)
+/data

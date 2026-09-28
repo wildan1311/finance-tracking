@@ -53,6 +53,14 @@ class GoogleSheetsClient {
       },
     });
   }
+
+  /** Empties a range. Used to rewrite a whole block after removing a row. */
+  async clearSheetsRange(sheetId: string, range: string) {
+    return this.sheets.spreadsheets.values.clear({
+      spreadsheetId: sheetId,
+      range: range,
+    });
+  }
 }
 
 export default GoogleSheetsClient;
